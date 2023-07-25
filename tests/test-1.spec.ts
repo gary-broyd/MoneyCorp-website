@@ -24,13 +24,15 @@ test('Question 2', async ({ page }) => {
   // 5. Validate search results page
   await expect(page).toHaveURL('https://www.moneycorp.com/en-us/search/?q=international+payments');
 
-
   // 6. Validate articles in list start with 'https://www.moneycorp.com/en-us/'
+  const resultsWrapper = await page.locator(".results-wrapper");
+  const results = await resultsWrapper.locator("a").all();
 
-
-
-
-
-
+  for (const li of results)
+  {
+    const hrefValue = await li.getAttribute('href');
+    console.log(hrefValue);
+    expect(hrefValue.startsWith('https://www.moneycorp.com/en-us/')).toBe(true);
+  }
 
 });
